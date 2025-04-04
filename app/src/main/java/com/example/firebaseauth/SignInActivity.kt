@@ -1,10 +1,9 @@
 package com.example.firebaseauth
 
-import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import android.os.Bundle
+
 
 class SignInActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,5 +11,15 @@ class SignInActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_sign_in)
 
+        //1. Menambahkan edge to edge support
+        initActionBar()
+
+    }
+
+    //2. Menambahkan support action bar
+    private fun initActionBar() {
+        setSupportActionBar(findViewById(R.id.tbSignIn))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
     }
 }
