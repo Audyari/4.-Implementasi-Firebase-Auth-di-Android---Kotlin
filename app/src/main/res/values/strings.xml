@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Firebase Auth</string>
+    <string name="Firebase_Auth">Firebase Auth</string>
 </resources>
