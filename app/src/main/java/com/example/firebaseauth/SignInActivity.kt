@@ -57,12 +57,6 @@ class SignInActivity : AppCompatActivity() {
         //13. buat google auth
         btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn)
 
-
-
-
-
-
-
         //3. Initialize action bar
 
         initActionBar()

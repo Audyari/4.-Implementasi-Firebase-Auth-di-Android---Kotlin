@@ -4,17 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
-
-
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
     //1. deklarasi button logout
     private lateinit var btnLogout: Button
+
+    //8. deklarasi firebase auth
+    private lateinit var mGoogleSignInClient:GoogleSignInClient
 
     //2. deklarasi firebase auth
     private lateinit var auth: FirebaseAuth
@@ -45,6 +48,11 @@ class MainActivity : AppCompatActivity() {
             // 7. Panggil fungsi logout dari Firebase Authentication
             auth.signOut()
 
+            //8. Panggil fungsi logout dari Google Sign In
+            mGoogleSignInClient.signOut().addOnCompleteListener {
+                Toast.makeText(this, "Success Logout", Toast.LENGTH_SHORT).show()
+            }
+
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             finish()
@@ -55,13 +63,13 @@ class MainActivity : AppCompatActivity() {
     private fun initFirebaseAuth() {
         auth = FirebaseAuth.getInstance()
 
-        // Configure Google Sign In
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(getString(R.string.default_web_client_id))
-//            .requestEmail()
-//            .build()
-//
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+        //8.  Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
     //5. get data User
