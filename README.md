@@ -11,3 +11,7 @@ https://firebase.google.com/docs/auth
 Figma :
 
 https://www.figma.com/file/GMcZDvaukVbbdxSsssrmKn/Untitled?type=design&node-id=0%3A1&mode=design&t=G0CXjlYacIpTx7JD-1
+
+
+
+penting aktigkan sha1 masuk ke cmd gradel ketik  : signingreport

@@ -17,4 +17,5 @@
     <string name="image_view">image view</string>
     <string name="welcome_back">Welcome back</string>
     <string name="logout">Logout</string>
+    <string name="default_web_client_id">19098655071-0gq67p5c7prjqqcra7ct6c3n42tfksjd.apps.googleusercontent.com</string>
 </resources>

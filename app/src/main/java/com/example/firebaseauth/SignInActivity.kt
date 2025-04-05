@@ -4,15 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.*
-
-
-
-
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 
 
 class SignInActivity : AppCompatActivity() {
@@ -29,8 +31,14 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var etEmailSignIn: TextInputEditText
     private lateinit var etPasswordSignIn: TextInputEditText
 
-//    private lateinit var mGoogleSignInClient: GoogleSignInClient
-//    private lateinit var callBackManager: CallbackManager
+    //13. buat google auth
+    private lateinit var btnGoogleSignIn: FrameLayout
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+
+
+    companion object{
+        const val RC_SIGN_IN = 100
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +53,14 @@ class SignInActivity : AppCompatActivity() {
         //6. Initialize edit text
         etEmailSignIn = findViewById(R.id.etEmailSignIn)
         etPasswordSignIn = findViewById(R.id.etPasswordSignIn)
+
+        //13. buat google auth
+        btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn)
+
+
+
+
+
 
 
         //3. Initialize action bar
@@ -81,21 +97,49 @@ class SignInActivity : AppCompatActivity() {
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
         }
+
+        // 13. panggil fungsi google auth
+        btnGoogleSignIn.setOnClickListener {
+            // 13. panggil fungsi google auth
+            val signIntent = mGoogleSignInClient.signInIntent
+            startActivityForResult(signIntent, RC_SIGN_IN)
+        }
+
+    }
+
+    //13. panggil fungsi google auth
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            CustomDialog.showLoading(this)
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
+                fireBaseAuth(credential)
+            } catch (e: ApiException) {
+                CustomDialog.hideLoading()
+                Log.e("SignInActivity", "Sign-in failed: ${e.statusCode} - ${e.message}")
+                Toast.makeText(this, "Sign-In Failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "Sign-In Cancelled", Toast.LENGTH_SHORT).show()
+        }
     }
 
     //9. Initialize Firebase Authentication
     private fun initFirebaseAuth() {
         auth = FirebaseAuth.getInstance()
 
-        // Configure Google Sign In
-//        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(getString(R.string.default_web_client_id))
-//            .requestEmail()
-//            .build()
-//
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-//
-//        callBackManager = CallbackManager.Factory.create()
+        //  13. Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
     }
 
     //3. Initialize action bar
@@ -134,14 +178,14 @@ class SignInActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 CustomDialog.hideLoading()
-                if (task.isSuccessful){
+                if (task.isSuccessful) {
                     startActivity(Intent(this, MainActivity::class.java))
                     finishAffinity()
-                }else{
+                } else {
                     Toast.makeText(this, "Sign-In failed", Toast.LENGTH_SHORT).show()
                 }
             }
-            .addOnFailureListener {exception ->
+            .addOnFailureListener { exception ->
                 CustomDialog.hideLoading()
                 Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
             }
