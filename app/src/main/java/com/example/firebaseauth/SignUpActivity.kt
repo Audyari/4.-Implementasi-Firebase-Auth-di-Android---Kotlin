@@ -51,6 +51,8 @@ class SignUpActivity : AppCompatActivity() {
             val pass = etPasswordSignUp.text.toString().trim()
             val confirmPass = etConfirmPasswordSignUp.text.toString().trim()
 
+            //9. panggil fungsi loading
+            CustomDialog.showLoading(this)
 
             //7. panggil fungsi Validasi input
             if (!isValidInput(email, pass, confirmPass)) return@setOnClickListener
@@ -97,7 +99,8 @@ class SignUpActivity : AppCompatActivity() {
             return false
         }
         //9. panggil fungsi loading
-//        CustomDialog.hideLoading()
+        CustomDialog.showLoading(this)
+
 
         return true
     }
@@ -109,7 +112,8 @@ class SignUpActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
 
                 //9. panggil fungsi loading
-//                CustomDialog.hideLoading()
+                CustomDialog.showLoading(this)
+
                 if (task.isSuccessful) {
                     startActivity(Intent(this, MainActivity::class.java))
                     finishAffinity()
@@ -119,7 +123,8 @@ class SignUpActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 //9. panggil fungsi loading
-//                CustomDialog.hideLoading()
+                CustomDialog.showLoading(this)
+
                 Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
             }
     }
