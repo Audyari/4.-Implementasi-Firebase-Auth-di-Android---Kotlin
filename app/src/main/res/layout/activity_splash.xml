@@ -12,13 +12,12 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/Firebase_Auth"
         android:src="@drawable/logo_firebase"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Firebase_Auth"
+        android:text="Firebase Auth"
         android:textSize="28sp"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"/>

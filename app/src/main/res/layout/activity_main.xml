@@ -16,7 +16,6 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/image_view"
             android:src="@drawable/logo_home"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"/>
@@ -24,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/welcome_back"
+            android:text="Welcome back"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
@@ -34,7 +33,7 @@
             android:id="@+id/tvEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/email"
+            android:text="Email"
             android:textColor="@android:color/black"
             android:textStyle="bold"
             android:textSize="28sp"/>
@@ -46,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_btn_logout"
-        android:text="@string/logout"
+        android:text="Logout"
         android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"/>
 
