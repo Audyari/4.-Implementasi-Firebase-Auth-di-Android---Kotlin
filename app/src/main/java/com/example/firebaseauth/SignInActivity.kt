@@ -9,12 +9,18 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.facebook.CallbackManager
+import com.facebook.login.LoginManager
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
+
 
 
 class SignInActivity : AppCompatActivity() {
@@ -35,7 +41,11 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var btnGoogleSignIn: FrameLayout
     private lateinit var mGoogleSignInClient: GoogleSignInClient
 
+    //14. facebook
+    private lateinit var callBackManager: CallbackManager
+    private lateinit var  btnFacebookSignIn: FrameLayout
 
+    //13. buat google auth
     companion object{
         const val RC_SIGN_IN = 100
     }
@@ -56,6 +66,10 @@ class SignInActivity : AppCompatActivity() {
 
         //13. buat google auth
         btnGoogleSignIn = findViewById(R.id.btnGoogleSignIn)
+
+        //14. facebook
+        btnFacebookSignIn = findViewById(R.id.btnFacebookSignIn)
+
 
         //3. Initialize action bar
 
@@ -99,6 +113,11 @@ class SignInActivity : AppCompatActivity() {
             startActivityForResult(signIntent, RC_SIGN_IN)
         }
 
+        //14. facebook
+        btnFacebookSignIn.setOnClickListener {
+            loginFacebook()
+        }
+
     }
 
     //13. panggil fungsi google auth
@@ -133,6 +152,9 @@ class SignInActivity : AppCompatActivity() {
             .build()
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        //14. facebook
+        callBackManager = CallbackManager.Factory.create()
 
     }
 
@@ -183,5 +205,27 @@ class SignInActivity : AppCompatActivity() {
                 CustomDialog.hideLoading()
                 Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
             }
+    }
+
+    //14. login facebook
+    private fun loginFacebook() {
+        LoginManager.getInstance().logInWithReadPermissions(this, listOf("email"))
+
+        LoginManager.getInstance().registerCallback(callBackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                CustomDialog.showLoading(this@SignInActivity)
+                val token = result.accessToken.token
+                val credential = FacebookAuthProvider.getCredential(token)
+                fireBaseAuth(credential)
+            }
+
+            override fun onCancel() {
+                // Tangani pembatalan login jika perlu
+            }
+
+            override fun onError(error: FacebookException) {
+                Toast.makeText(this@SignInActivity, error.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }
