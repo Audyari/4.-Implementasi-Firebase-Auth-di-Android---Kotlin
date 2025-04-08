@@ -52,11 +52,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //google-services
-    implementation ("com.google.android.gms:play-services-auth:17.0.0")
+    implementation ("com.google.android.gms:play-services-auth:21.3.0")
 
     // facebook
-    implementation ("com.facebook.android:facebook-android-sdk:latest.release")
-
-
+    implementation (libs.facebook.android.sdk)
 
 }

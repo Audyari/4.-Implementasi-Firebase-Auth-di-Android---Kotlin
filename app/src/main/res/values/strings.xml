@@ -23,9 +23,9 @@
 
 
 
-    <string name="facebook_app_id">654206413897103</string>
-    <string name="fb_login_protocol_scheme">fb654206413897103</string>
-    <string name="facebook_client_token">5ddafa8de0e5fb43765bc6269818407a</string>
+    <string name="facebook_app_id">1019168816754938</string>
+    <string name="fb_login_protocol_scheme">fb1019168816754938</string>
+    <string name="facebook_client_token">d6a333fdd19ff0b8a8d0d7b26bd34bc7</string>
     <string name="app_name">Firebase Auth</string>
 
 
